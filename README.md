@@ -154,9 +154,11 @@ On Android, always request runtime permissions if targeting SDK 30+.
   
 🤝 Contributing:  
 Feel free to fork and improve:  
+ - Add Encryption discovery.  
  - Add TCP auto-connect after discovery.  
  - Extend to IPv6 networks.  
- - Build UI to list all servers discovered.  
+ - Build UI to list all servers discovered.
+ - etc.. 
   
 👨‍💻 Author:  
 Maintained & Developed by mben-dz  
