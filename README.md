@@ -2,6 +2,7 @@
 
 ## A simple, cross-platform demo (VCL + FMX) showing how to automatically discover a server on the same LAN using **UDP Broadcast** with Indy components.  
 
+<img width="384" height="256" alt="Delphi UDP Broadcast Auto Discoverypng" src="https://github.com/user-attachments/assets/d56d0308-2076-4640-be63-74696c1047d1" />
 
 
 https://github.com/user-attachments/assets/496bd6fb-3ddd-4a5f-8d29-c93f14463a53
