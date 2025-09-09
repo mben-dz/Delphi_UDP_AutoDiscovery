@@ -1,4 +1,4 @@
-# Delphi UDP AutoDiscovery 🚀
+# Delphi Super Fast Tethering UDP AutoDiscovery 🚀
 
 ## A simple, cross-platform demo (VCL + FMX) showing how to automatically discover a server on the same LAN using **UDP Broadcast** with Indy components.  
 
