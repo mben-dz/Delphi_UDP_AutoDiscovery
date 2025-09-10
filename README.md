@@ -33,9 +33,28 @@ This makes it possible to build applications that can **find each other on the s
   - Windows: `GetAdaptersAddresses` API
   - Android: `Java.Net.NetworkInterface` enumeration
 - **Thread-safe logging** via `TThread.Queue`
-- **Timers** to control discovery message sending
+- **Timers** to control discovery message sending Loop if needed .
 
----
+## My Design Philosophy here:
+ - Server Side:  
+   - Creates a UDP listener on a fixed port (3434 by default).  
+   - Waits for broadcast requests with a specific keyword ("Discovery|Hello...").  
+   - Responds to the client only if that client has a UDP server listening on another pre-defined port (your “secret port”).  
+   - The reply goes to that listening port, not back to the sender’s ephemeral port.  
+  
+ - Client Side (VCL / FMX):  
+   - Uses a UDP server to listen for replies.  
+   - Uses a UDP client socket to broadcast a discovery request.  
+   - The server will only reply if the client has a listening UDP server on the agreed-upon port → this is your security + filtering mechanism.  
+   - After receiving the reply, the client knows the TCP server IP/port and can connect quickly.  
+
+# Why it feels “super fast”:  
+  - You don’t waste time scanning subnets.  
+  - You don’t query all adapters manually. You just blast 255.255.255.255:3434 and whoever is alive responds.  
+  - The “secret UDP server port” acts as handshake validation, so random broadcasts don’t get replies.  
+  - No retries, no handshakes, no multi-round protocols → just one broadcast, one reply.  
+
+---  
 
 ## 🔌 How It Works (Step by Step)
 
