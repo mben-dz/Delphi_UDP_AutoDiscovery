@@ -43,9 +43,9 @@ This makes it possible to build applications that can **find each other on the s
    - The reply goes to that listening port, not back to the sender’s ephemeral port.  
   
  - Client Side (VCL / FMX):  
-   - Uses a UDP server to listen for ServerApp replies on My pre-defined “secret port”.  
+   - Uses a UDP server to listen for ServerApp replies on our pre-defined “secret port”.  
    - Uses a UDP client socket to broadcast a discovery request Help.  
-   - The server is forced to reply on My pre-defined “secret port”, and will only reply if the client has a listening UDP server on the agreed-upon port → this is My security + filtering mechanism.  
+   - The server is forced to reply on our pre-defined “secret port”, and will only reply if the client has a listening UDP server on the agreed-upon port → this is our security + filtering mechanism here.  
    - After receiving the reply, the client knows the TCP server IP/port and can connect quickly.  
 
 # Why it feels “super fast”:  
