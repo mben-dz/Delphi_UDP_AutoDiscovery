@@ -38,20 +38,20 @@ This makes it possible to build applications that can **find each other on the s
 ## My Design Philosophy here:
  - Server Side:  
    - Creates a UDP listener on a fixed port (3434 by default).  
-   - Waits for broadcast requests with a specific keyword ("Discovery|Hello...").  
-   - Responds to the client only if that client has a UDP server listening on another pre-defined port (our “secret port”).  
+   - Waits for broadcast requests with a specific keyword ( `"DISCOVERY|MySecretAppID" `).  
+   - Responds to the client only if that client has a UDP server listening on another pre-defined port...  
    - The reply goes to that listening port, not back to the sender’s ephemeral port.  
   
  - Client Side (VCL / FMX):  
-   - Uses a UDP server to listen for ServerApp replies on our pre-defined “secret port”.  
+   - Uses a UDP server to listen for ServerApp replies on our pre-defined “port”.  
    - Uses a UDP client socket to broadcast a discovery request Help.  
-   - The server is forced to reply on our pre-defined “secret port”, and will only reply if the client has a listening UDP server on the agreed-upon port → this is our security + filtering mechanism here.  
+   - The server is forced to reply on our Second agent Socket “UDP server”, and will only reply if the client has a listening UDP server on the agreed-upon port → this is our security + filtering mechanism here.  
    - After receiving the reply, the client knows the TCP server IP/port and can connect quickly.  
 
 # Why it feels “super fast”:  
   - You don’t waste time scanning subnets.  
   - You don’t query all adapters manually. You just blast 255.255.255.255:3434 and whoever is alive responds.  
-  - The “secret UDP server port” acts as handshake validation, so random broadcasts don’t get replies.  
+  - The “secret UDP server” acts as handshake validation, so random broadcasts don’t get replies.  
   - No retries, no handshakes, no multi-round protocols, no user help at all → just one broadcast, one reply.  
 
 ---  
@@ -66,15 +66,39 @@ This makes it possible to build applications that can **find each other on the s
      ```
      DISCOVERY|192.168.1.10
      ```
-  3. Sends it **directly back to the client’s listening port `22049`**.
+  3. Sends it **directly back to the agent Udp client’s listening port `22049`**.
 
-➡️ This ensures the client receives only the relevant reply without looping broadcasts.
+➡️ This ensures only our clients receives in general the relevant reply based on second agent UDPServer and without looping broadcasts Methods.
 
 ---
 
 ### 2. Client Setup
 - Creates a UDP client that:
-  - Binds to the **local LAN IPv4** (not a virtual adapter).
+  - Binds to the **local LAN IPv4** (not a virtual adapter) using TIdIPWatch or GStack WILL NOT HELP YOU HERE !!.
+```
+function GetIP : String;
+begin
+  TIdStack.IncUsage;
+  try
+    Result := GStack.LocalAddress;
+  finally
+    TIdStack.DecUsage;
+  end;
+end;
+
+function GetLocalIp: string;
+var
+   IPW: TIdIPWatch;
+begin
+  IpW := TIdIPWatch.Create(nil);
+  try
+    if IpW.LocalIP <> '' then
+      Result := IpW.LocalIP;
+  finally
+    IpW.Free;
+  end;
+end;
+```
   - Broadcasts discovery message on **port `3434`**.
 - Creates a UDP server (`fUDPServerRead`) that:
   - Listens on **port `22049`** for server replies.
@@ -85,12 +109,12 @@ This makes it possible to build applications that can **find each other on the s
 ### 3. Discovery Flow  
 
 1. Client sends:  
-`Discovery|Hello, I'm Here, is there Any UDP Broadcaster there?`
-→ to `255.255.255.255:3434`.  
+`DISCOVERY|MySecretAppID`
+→ to `255.255.255.255:3434`.(this message could be encrypted here & you could add also your random port for your second agent UDPSERVER lISTENER Here..)  
 
 2. Server receives & replies:
 `DISCOVERY|192.168.1.100`
-→ back to client’s listening port `22049`.
+→ back to client’s Second Agent UDPServer that listening port is: `22049` (you could make it Random while send it inside the Discovery Request Help Above..).
 
 3. Client receives server’s reply:
 `UDP Server 192.168.1.100`
@@ -120,11 +144,11 @@ Requires Android permissions in AndroidManifest.xml:
 
 2. No loops or retries – client sends once, server replies once.
 
-3. Pre-bound ports – server always replies on 22049, no guessing ephemeral ports.
+3. Pre-bound ports – server always replies on `22049`, no guessing ephemeral ports or you could make the port random as explained Above.
 
 4. Thread-safe async processing – logs and UI updates don’t block networking.
 
-5. Bound to the real LAN adapter – avoids binding to virtual adapters (e.g. VirtualBox).  
+5. Bound to the real LAN adapter – avoids binding to virtual adapters (e.g. VirtualBox) using TIdIPWatch or GStack WILL NOT HELP YOU HERE !!..  
 
 🖥 Demo Setup  
   
