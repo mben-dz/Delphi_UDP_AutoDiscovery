@@ -110,7 +110,7 @@ end;
 
 1. Client sends:  
 `DISCOVERY|MySecretAppID`
-→ to `255.255.255.255:3434`.(this message could be encrypted here & you could add also your random port for your second agent UDPSERVER lISTENER Here..)  
+→ to `255.255.255.255:3434`.(this message could be encrypted here & you could add also your random port for your second agent UDPSERVER Listener Here..)  
 
 2. Server receives & replies:
 `DISCOVERY|192.168.1.100`
