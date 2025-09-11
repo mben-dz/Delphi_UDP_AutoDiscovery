@@ -144,7 +144,7 @@ Requires Android permissions in AndroidManifest.xml:
 
 2. No loops or retries – client sends once, server replies once.
 
-3. Pre-bound ports – server always replies on `22049`, no guessing ephemeral ports or you could make the port random as explained Above.
+3. Pre-bound ports – server always replies on `22049`, no guessing ephemeral ports..(here you could make the port random as explained Above).
 
 4. Thread-safe async processing – logs and UI updates don’t block networking.
 
