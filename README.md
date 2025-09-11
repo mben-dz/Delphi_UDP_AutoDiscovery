@@ -74,7 +74,7 @@ This makes it possible to build applications that can **find each other on the s
 
 ### 2. Client Setup
 - Creates a UDP client that:
-  - Binds to the **local LAN IPv4** (not a virtual adapter) using TIdIPWatch or GStack WILL NOT HELP YOU HERE !!.
+  - Binds to the **local LAN IPv4** (not a virtual adapter), Using TIdIPWatch or GStack WILL NOT HELP YOU HERE!!.
 ```
 function GetIP : String;
 begin
@@ -148,7 +148,7 @@ Requires Android permissions in AndroidManifest.xml:
 
 4. Thread-safe async processing – logs and UI updates don’t block networking.
 
-5. Bound to the real LAN adapter – avoids binding to virtual adapters (e.g. VirtualBox) using TIdIPWatch or GStack WILL NOT HELP YOU HERE !!..  
+5. Bound to the real LAN adapter – avoids binding to virtual adapters (e.g. VirtualBox), Using TIdIPWatch or GStack WILL NOT HELP YOU HERE!!..  
 
 🖥 Demo Setup  
   
